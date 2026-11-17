@@ -274,5 +274,117 @@
     gerar();
   };
 
+  // ---------- Tabela de encaminhamento: "és o router" ----------
+  W.tabelarotas = function (el) {
+    const R = [
+      ['C', '192.168.10.0', 24, 'GigabitEthernet0/0', 'ligada diretamente'],
+      ['C', '192.168.20.0', 24, 'GigabitEthernet0/1', 'ligada diretamente'],
+      ['C', '10.0.0.0', 30, 'GigabitEthernet0/2', 'ligada diretamente'],
+      ['C', '10.0.0.4', 30, 'Serial0/0/0', 'ligada diretamente'],
+      ['S', '192.168.30.0', 24, 'GigabitEthernet0/2', 'via 10.0.0.2 (R2)'],
+      ['S', '172.16.0.0', 16, 'GigabitEthernet0/2', 'via 10.0.0.2 (R2)'],
+      ['S', '172.16.5.0', 24, 'Serial0/0/0', 'via 10.0.0.6 (R3)'],
+      ['S*', '0.0.0.0', 0, 'Serial0/0/0', 'via 10.0.0.6 (R3) · rota por omissão']
+    ].map(([t, rede, p, ifc, via]) => ({ t, rede, p, n: IP.parse(rede), ifc, via }));
+    const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+    const gerar = () => {
+      const op = [
+        () => `192.168.10.${rnd(2, 254)}`, () => `192.168.20.${rnd(2, 254)}`, () => `192.168.30.${rnd(1, 254)}`,
+        () => `172.16.${rnd(0, 255)}.${rnd(1, 254)}`, () => `172.16.5.${rnd(1, 254)}`, () => `172.16.5.${rnd(1, 254)}`,
+        () => `${rnd(11, 223)}.${rnd(0, 255)}.${rnd(0, 255)}.${rnd(1, 254)}`, () => `10.0.0.${rnd(5, 6)}`, () => `8.8.8.8`
+      ];
+      return op[rnd(0, op.length - 1)]();
+    };
+    const melhor = ip => {
+      let m = null;
+      for (const r of R) if (((ip & IP.mask(r.p)) >>> 0) === r.n && (!m || r.p > m.p)) m = r;
+      return m;
+    };
+    let dest, streak = 0, bloqueado = false;
+    const enun = h('div', { class: 'treino-enun' });
+    const fb = h('div', { style: { minHeight: '1.6em', marginTop: '10px' } });
+    const tbody = h('tbody');
+    const linhas = R.map(r => {
+      const tr = h('tr', { style: { cursor: 'pointer' } },
+        h('td', { class: 'mono' }, r.t), h('td', { class: 'mono' }, `${r.rede}/${r.p}`), h('td', { class: 'mono' }, r.ifc), h('td', null, r.via));
+      tr.addEventListener('click', () => escolher(r, tr));
+      tbody.append(tr);
+      return tr;
+    });
+    const novo = () => {
+      dest = gerar(); bloqueado = false;
+      linhas.forEach(tr => (tr.style.background = ''));
+      enun.innerHTML = `Chega um pacote para <b>${dest}</b>. Que linha da tabela usa o router? <span class="muted">(clica na linha)</span>`;
+      fb.textContent = '';
+    };
+    const escolher = (r, tr) => {
+      if (bloqueado) return;
+      bloqueado = true;
+      const m = melhor(IP.parse(dest));
+      const ok = r === m;
+      tr.style.background = `color-mix(in srgb, var(--${ok ? 'green' : 'red'}) 22%, transparent)`;
+      if (!ok) linhas[R.indexOf(m)].style.background = 'color-mix(in srgb, var(--green) 22%, transparent)';
+      const cands = R.filter(x => ((IP.parse(dest) & IP.mask(x.p)) >>> 0) === x.n);
+      if (ok) { streak++; window.APP.addXP(3, 'Router: pacote bem encaminhado'); if (streak >= 8) window.APP.badge('router'); }
+      else streak = 0;
+      fb.innerHTML = `<b style="color:var(--${ok ? 'green' : 'red'})">${ok ? 'Encaminhado! 📦' : 'Pacote no sítio errado 📉'}</b> ` +
+        `Rotas que servem: ${cands.map(x => `<code>/${x.p}</code>`).join(', ')}. Ganha a <b>mais específica</b> (maior prefixo): <code>${m.rede}/${m.p}</code> → sai por <b>${m.ifc}</b>. ` +
+        `Sequência: <span class="streak">🔥 ${streak}</span> <button class="btn small" style="margin-left:8px">Próximo pacote ▶</button>`;
+      fb.querySelector('button').onclick = novo;
+    };
+    el.append(h('div', { class: 'muted', style: { fontSize: '.85rem', marginBottom: '6px' } }, 'Tabela de encaminhamento do router R1 (C = ligada diretamente, S = estática, * = por omissão)'),
+      h('div', { class: 'tabela-wrap' }, h('table', null, h('thead', null, h('tr', null, h('th', null, 'Tipo'), h('th', null, 'Rede de destino'), h('th', null, 'Interface de saída'), h('th', null, 'Próximo salto'))), tbody)),
+      h('div', { style: { marginTop: '12px' } }, enun), fb);
+    novo();
+  };
+
+  // ---------- Verificador do plano do mini-projeto 1 ----------
+  // op.redes: [[nome, hosts], ...] já ordenadas da maior para a menor (VLSM).
+  W.verificaplano = function (el, op) {
+    const redes = op.redes;
+    const gIn = h('input', { type: 'number', min: 1, max: 14, value: '', placeholder: 'G', style: { width: '80px' }, 'aria-label': 'Número do grupo' });
+    const corpo = h('div');
+    const fb = h('div', { style: { minHeight: '1.6em', marginTop: '10px' } });
+    let esperado = null;
+    const calcular = G => {
+      let base = IP.parse(`192.168.${100 + G}.0`), cur = base;
+      return redes.map(([nome, hosts]) => {
+        const bits = Math.ceil(Math.log2(hosts + 2)), tam = Math.pow(2, bits), p = 32 - bits;
+        const r = { nome, rede: IP.str(cur), prefixo: '/' + p, gateway: IP.str(cur + 1), broadcast: IP.str(cur + tam - 1) };
+        cur += tam;
+        return r;
+      });
+    };
+    const montar = () => {
+      const G = +gIn.value;
+      if (!(G >= 1 && G <= 14)) { corpo.replaceChildren(h('p', { class: 'muted' }, 'Escreve o número do teu grupo (1–14) para começar.')); esperado = null; return; }
+      esperado = calcular(G);
+      corpo.replaceChildren(h('p', null, 'A rede do teu grupo é ', h('b', { class: 'mono' }, `192.168.${100 + G}.0/24`), '. Preenche com o teu plano e verifica.'),
+        h('div', { class: 'tabela-wrap' }, h('table', null,
+          h('thead', null, h('tr', null, ['Sub-rede', 'Endereço de rede', 'Prefixo', '1.º host (gateway)', 'Broadcast'].map(t => h('th', null, t)))),
+          h('tbody', null, esperado.map((r, i) => h('tr', null, h('td', null, r.nome),
+            ...['rede', 'prefixo', 'gateway', 'broadcast'].map(c => h('td', null, h('input', { type: 'text', 'data-i': i, 'data-c': c, size: c === 'prefixo' ? 4 : 14, autocomplete: 'off', spellcheck: 'false' })))))))));
+      fb.textContent = '';
+    };
+    const verificar = () => {
+      if (!esperado) return;
+      let erros = 0, vazios = 0;
+      corpo.querySelectorAll('input').forEach(inp => {
+        let v = inp.value.trim().replace(/\s/g, '');
+        if (!v) { vazios++; inp.classList.remove('certo', 'errado'); return; }
+        if (inp.dataset.c === 'prefixo' && !v.startsWith('/')) v = '/' + v;
+        const ok = v === esperado[inp.dataset.i][inp.dataset.c];
+        inp.classList.toggle('certo', ok); inp.classList.toggle('errado', !ok);
+        if (!ok) erros++;
+      });
+      fb.innerHTML = erros || vazios
+        ? `<b style="color:var(--amber)">${erros} errado(s), ${vazios} por preencher.</b> Revê os vermelhos: ordenaste da maior para a menor? Os blocos estão seguidos?`
+        : '<b style="color:var(--green)">Plano certo! ✅</b> Copia-o para o Excel do grupo e mostra ao professor.';
+    };
+    gIn.addEventListener('input', montar);
+    el.append(h('div', { class: 'row', style: { marginBottom: '10px' } }, h('label', null, 'Grupo n.º ', gIn), h('button', { class: 'btn small primary', onclick: verificar }, 'Verificar plano')), corpo, fb);
+    montar();
+  };
+
   window.WIDGETS = W;
 })();
