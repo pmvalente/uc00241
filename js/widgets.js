@@ -386,5 +386,27 @@
     montar();
   };
 
+  // ---------- Sequência de mensagens entre vários intervenientes (DNS, DHCP…) ----------
+  // op.atores: [[id, rótulo, cor]], op.passos: [[de, para, mensagem, explicação]]
+  W.sequencia = function (el, op) {
+    const A = {}; op.atores.forEach(([id, rot, cor]) => (A[id] = { rot, cor }));
+    let i = 0;
+    const lista = h('div', { style: { display: 'grid', gap: '8px', margin: '12px 0' } });
+    const leg = h('p', { class: 'muted', style: { minHeight: '1.6em', margin: '0 0 10px' } });
+    const seg = h('button', { class: 'btn small primary' }, 'Próximo passo ▶');
+    const tag = id => h('span', { class: 'tag', style: { borderColor: A[id].cor, color: A[id].cor } }, A[id].rot);
+    const reset = () => { i = 0; lista.replaceChildren(); leg.textContent = op.inicio || 'Carrega em "Próximo passo".'; seg.disabled = false; };
+    seg.onclick = () => {
+      const [de, para, msg, exp] = op.passos[i++];
+      lista.append(h('div', { class: 'row', style: { animation: 'entrar .35s', gap: '8px' } },
+        h('span', { class: 'mono muted', style: { width: '22px' } }, i + '.'), tag(de), h('span', { class: 'mono', style: { color: 'var(--muted)' } }, '──▶'), tag(para),
+        h('span', { class: 'mono', style: { fontSize: '.88rem' } }, msg)));
+      leg.innerHTML = exp;
+      if (i >= op.passos.length) seg.disabled = true;
+    };
+    el.append(h('div', { class: 'row' }, op.atores.map(([id]) => tag(id))), lista, leg, h('div', { class: 'row' }, seg, h('button', { class: 'btn small', onclick: reset }, '↺ Recomeçar')));
+    reset();
+  };
+
   window.WIDGETS = W;
 })();

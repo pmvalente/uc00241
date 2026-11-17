@@ -102,7 +102,8 @@ window.CURSO = {
     { id: 'subredes', icone: '✂️', nome: 'Sub-netter', desc: '5 exercícios de sub-redes certos seguidos.' },
     { id: 'router', icone: '🧭', nome: 'Router humano', desc: '8 pacotes bem encaminhados seguidos na tabela de encaminhamento.' },
     { id: 'modulo-ip',icone: '🔢', nome: 'IP certificado', desc: '70% ou mais em todos os quizzes das sessões 5–9.' },
-    { id: 'xp500', icone: '⚡', nome: 'Em rede', desc: 'Chegaste aos 500 XP.' },
+    { id: 'dns-dhcp', icone: '📇', nome: 'Senhor/a dos nomes', desc: '80% ou mais em todos os quizzes das sessões 17–20.' },
+    { id: 'xp500',icone: '⚡', nome: 'Em rede', desc: 'Chegaste aos 500 XP.' },
     { id: 'xp1000', icone: '🛰️', nome: 'Backbone', desc: 'Chegaste aos 1000 XP.' }
   ],
 
