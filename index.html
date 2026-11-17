@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Redes UC00241</title>
+  <meta name="description" content="UC00241 · Configurar protocolos e serviços de rede · 10.º O · Curso Profissional Técnico de Desenvolvimento de Software">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2322d3ee'/%3E%3Ccircle cx='16' cy='9' r='3.5' fill='%2306222a'/%3E%3Ccircle cx='8' cy='23' r='3.5' fill='%2306222a'/%3E%3Ccircle cx='24' cy='23' r='3.5' fill='%2306222a'/%3E%3Cpath d='M16 9L8 23M16 9l8 14M8 23h16' stroke='%2306222a' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    // Aplica o tema antes de desenhar (evita "piscar").
+    try { var t = localStorage.getItem('uc00241.tema'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <button class="iconbtn menubtn" id="menuBtn" aria-label="Menu">☰</button>
+    <a class="brand" href="#/">
+      <span class="logo">241</span>
+      <span>Protocolos &amp; Serviços<small>UC00241 · 10.º O</small></span>
+    </a>
+    <nav class="nav" id="nav">
+      <a href="#/" data-r="inicio">Sessões</a>
+      <a href="#/avaliacao" data-r="avaliacao">Avaliação</a>
+      <a href="#/conquistas" data-r="conquistas">Conquistas</a>
+      <a href="#/recursos" data-r="recursos">Recursos</a>
+    </nav>
+    <span class="spacer"></span>
+    <div class="xpbox" title="A tua experiência (guardada neste browser)">
+      <span class="lvl" id="lvlNome">Nível 1</span>
+      <span class="xpbar"><i id="xpFill" style="width:0"></i></span>
+      <span class="mono" id="xpTxt">0 XP</span>
+    </div>
+    <button class="iconbtn" id="temaBtn" aria-label="Mudar tema claro/escuro" title="Tema claro/escuro (claro é melhor para projetar)">◐</button>
+  </header>
+
+  <main id="app" tabindex="-1"></main>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <!-- Dados do curso -->
+  <script src="dados/curso.js"></script>
+  <script src="dados/sessoes/s01.js"></script>
+  <script src="dados/sessoes/s02.js"></script>
+  <script src="dados/sessoes/s03.js"></script>
+  <script src="dados/sessoes/s04.js"></script>
+  <script src="dados/sessoes/s05.js"></script>
+  <script src="dados/sessoes/s06.js"></script>
+  <script src="dados/sessoes/s07.js"></script>
+  <script src="dados/sessoes/s08.js"></script>
+  <script src="dados/sessoes/s09.js"></script>
+  <!-- Motor -->
+  <script src="js/widgets.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
