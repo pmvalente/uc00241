@@ -183,9 +183,9 @@
 
     if (!s) {
       app.append(head, h('div', { class: 'bloco' },
-        h('h2', null, '🔒 Em preparação'),
+        h('h2', null, '🔒 Ainda não disponível'),
         h('p', null, m.resumo),
-        h('p', { class: 'muted' }, 'Esta sessão ainda está a ser preparada pelo professor. Fica disponível antes da aula.')),
+        h('p', { class: 'muted' }, 'O professor liberta esta sessão quando lá chegarmos. Até lá, revê as sessões anteriores!')),
         navSessao(n));
       return;
     }
