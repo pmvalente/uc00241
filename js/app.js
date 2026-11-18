@@ -101,6 +101,7 @@
     if (grupo([5, 6, 7, 8, 9], 0.7)) badge('modulo-ip');
     if (grupo([17, 18, 19, 20], 0.8)) badge('dns-dhcp');
     if (grupo([21, 22, 23], 0.8)) badge('dominio');
+    if (grupo([24, 25, 26], 0.8)) badge('webmaster');
     const labs = Object.values(st.labs).filter(l => l.feito).length;
     if (labs >= 1) badge('lab');
     if (labs >= 5) badge('labs5');

@@ -104,6 +104,7 @@ window.CURSO = {
     { id: 'modulo-ip',icone: '🔢', nome: 'IP certificado', desc: '70% ou mais em todos os quizzes das sessões 5–9.' },
     { id: 'dns-dhcp', icone: '📇', nome: 'Senhor/a dos nomes', desc: '80% ou mais em todos os quizzes das sessões 17–20.' },
     { id: 'dominio', icone: '🏰', nome: 'Dono/a do domínio', desc: '80% ou mais em todos os quizzes das sessões 21–23.' },
+    { id: 'webmaster', icone: '🕸️', nome: 'Mestre/a da Web', desc: '80% ou mais em todos os quizzes das sessões 24–26.' },
     { id: 'xp500',icone: '⚡', nome: 'Em rede', desc: 'Chegaste aos 500 XP.' },
     { id: 'xp1000', icone: '🛰️', nome: 'Backbone', desc: 'Chegaste aos 1000 XP.' }
   ],
@@ -116,7 +117,7 @@ window.CURSO = {
         { icone: '🧭', nome: 'Cisco Packet Tracer', desc: 'Simulador de redes. Precisas de conta gratuita da Cisco Networking Academy. Sessão 1.', url: 'https://www.netacad.com/cisco-packet-tracer', acao: 'Site oficial' },
         { icone: '📦', nome: 'Oracle VirtualBox', desc: 'Para correres o Windows Server numa máquina virtual. Sessão 15.', url: 'https://www.virtualbox.org/wiki/Downloads', acao: 'Site oficial' },
         { icone: '🖥️', nome: 'Windows Server 2025 (avaliação)', desc: 'Versão de avaliação gratuita (180 dias). O professor indica qual ISO usar. Sessão 15.', url: 'https://www.microsoft.com/evalcenter/evaluate-windows-server-2025', acao: 'Evaluation Center' },
-        { icone: '🔥', nome: 'XAMPP', desc: 'Já o tens instalado. Inclui Apache (web), MySQL e ferramentas de FTP/email. Sessões 24–26.', url: 'https://www.apachefriends.org/', acao: 'Site oficial' },
+        { icone: '🔥', nome: 'XAMPP', desc: 'Já o tens instalado. Inclui o Apache (web) e o OpenSSL que vais usar nas sessões 24 e 25.', url: 'https://www.apachefriends.org/', acao: 'Site oficial' },
         { icone: '🦈', nome: 'Wireshark', desc: 'Para "ver" os pacotes que passam na tua placa de rede. Opcional.', url: 'https://www.wireshark.org/download.html', acao: 'Site oficial' }
       ]
     },

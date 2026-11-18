@@ -65,7 +65,9 @@ code, kbd, .mono { font-family: var(--mono); font-size: .92em; }
 code { background: var(--panel-2); border: 1px solid var(--border); padding: .05em .4em; border-radius: 6px; }
 pre { background: var(--code-bg); color: #c7f9ff; padding: 14px 16px; border-radius: 10px; overflow-x: auto; font-family: var(--mono); font-size: .88rem; line-height: 1.5; border: 1px solid var(--border); }
 pre code { background: none; border: 0; padding: 0; color: inherit; }
+:not(pre) > code { overflow-wrap: anywhere; }
 h1, h2, h3 { line-height: 1.25; }
+.widget select { max-width: 100%; }
 img { max-width: 100%; }
 button { font: inherit; color: inherit; }
 
@@ -132,7 +134,8 @@ main { max-width: 1180px; margin: 0 auto; padding: 28px 20px 80px; }
 .card-sessao.teste { background: repeating-linear-gradient(-45deg, var(--panel), var(--panel) 12px, var(--panel-2) 12px, var(--panel-2) 24px); }
 
 /* ---------- Sessão ---------- */
-.sessao-layout { display: grid; grid-template-columns: 240px 1fr; gap: 32px; align-items: start; }
+.sessao-layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 32px; align-items: start; }
+.sessao-layout > * { min-width: 0; }
 .toc { position: sticky; top: 78px; font-size: .88rem; max-height: calc(100vh - 100px); overflow: auto; padding-right: 6px; }
 .toc h4 { margin: 0 0 8px; font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .toc a { display: flex; gap: 8px; align-items: baseline; color: var(--muted); text-decoration: none; padding: 5px 8px; border-radius: 7px; border-left: 2px solid transparent; }
@@ -234,6 +237,8 @@ input.errado { border-color: var(--red); background: color-mix(in srgb, var(--re
 .passos li.feito .conteudo { opacity: .6; }
 .passos .conteudo { flex: 1; min-width: 0; }
 .passos .conteudo > *:first-child { margin-top: 0; }
+.passos .conteudo ul, .passos .conteudo ol { margin: 6px 0 0; padding-left: 20px; }
+.passos .conteudo li { display: list-item; padding: 2px 0; border-top: 0; }
 .passos .conteudo pre { margin: 8px 0 0; }
 .bloco.entrega { border-color: color-mix(in srgb, var(--amber) 55%, var(--border)); background: linear-gradient(135deg, color-mix(in srgb, var(--amber) 8%, var(--panel)), var(--panel)); }
 .bloco.entrega > h2 .k { background: var(--amber); color: #221; }
@@ -333,7 +338,7 @@ input.errado { border-color: var(--red); background: color-mix(in srgb, var(--re
 /* ---------- Responsivo ---------- */
 @media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; }
-  .sessao-layout { grid-template-columns: 1fr; }
+  .sessao-layout { grid-template-columns: minmax(0, 1fr); }
   .toc { position: static; max-height: none; display: none; }
   .nav { display: none; position: absolute; top: 58px; left: 0; right: 0; flex-direction: column; background: var(--bg); border-bottom: 1px solid var(--border); padding: 8px 16px; margin: 0; }
   .nav.open { display: flex; }
