@@ -106,6 +106,7 @@ window.CURSO = {
     { id: 'dominio', icone: '🏰', nome: 'Dono/a do domínio', desc: '80% ou mais em todos os quizzes das sessões 21–23.' },
     { id: 'webmaster', icone: '🕸️', nome: 'Mestre/a da Web', desc: '80% ou mais em todos os quizzes das sessões 24–26.' },
     { id: 'carteiro', icone: '📮', nome: 'Carteiro/a digital', desc: '80% ou mais em todos os quizzes das sessões 27–29.' },
+    { id: 'diploma', icone: '🎓', nome: 'Diploma de redes', desc: '80% ou mais no quiz final da UC (sessão 34).' },
     { id: 'xp500',icone: '⚡', nome: 'Em rede', desc: 'Chegaste aos 500 XP.' },
     { id: 'xp1000', icone: '🛰️', nome: 'Backbone', desc: 'Chegaste aos 1000 XP.' }
   ],

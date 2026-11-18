@@ -346,8 +346,10 @@
     const corpo = h('div');
     const fb = h('div', { style: { minHeight: '1.6em', marginTop: '10px' } });
     let esperado = null;
+    // op.base: modelo da rede do grupo, ex.: '172.20.{G}.0' (por omissão 192.168.(100+G).0)
+    const redeG = G => (op.base ? op.base.replace('{G}', G) : `192.168.${100 + G}.0`);
     const calcular = G => {
-      let base = IP.parse(`192.168.${100 + G}.0`), cur = base;
+      let base = IP.parse(redeG(G)), cur = base;
       return redes.map(([nome, hosts]) => {
         const bits = Math.ceil(Math.log2(hosts + 2)), tam = Math.pow(2, bits), p = 32 - bits;
         const r = { nome, rede: IP.str(cur), prefixo: '/' + p, gateway: IP.str(cur + 1), broadcast: IP.str(cur + tam - 1) };
@@ -359,7 +361,7 @@
       const G = +gIn.value;
       if (!(G >= 1 && G <= 14)) { corpo.replaceChildren(h('p', { class: 'muted' }, 'Escreve o número do teu grupo (1–14) para começar.')); esperado = null; return; }
       esperado = calcular(G);
-      corpo.replaceChildren(h('p', null, 'A rede do teu grupo é ', h('b', { class: 'mono' }, `192.168.${100 + G}.0/24`), '. Preenche com o teu plano e verifica.'),
+      corpo.replaceChildren(h('p', null, 'A rede do teu grupo é ', h('b', { class: 'mono' }, `${redeG(G)}/24`), '. Preenche com o teu plano e verifica.'),
         h('div', { class: 'tabela-wrap' }, h('table', null,
           h('thead', null, h('tr', null, ['Sub-rede', 'Endereço de rede', 'Prefixo', '1.º host (gateway)', 'Broadcast'].map(t => h('th', null, t)))),
           h('tbody', null, esperado.map((r, i) => h('tr', null, h('td', null, r.nome),

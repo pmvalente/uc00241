@@ -103,6 +103,7 @@
     if (grupo([21, 22, 23], 0.8)) badge('dominio');
     if (grupo([24, 25, 26], 0.8)) badge('webmaster');
     if (grupo([27, 28, 29], 0.8)) badge('carteiro');
+    if (grupo([34], 0.8)) badge('diploma');
     const labs = Object.values(st.labs).filter(l => l.feito).length;
     if (labs >= 1) badge('lab');
     if (labs >= 5) badge('labs5');
@@ -305,7 +306,7 @@
         const sec = h('section', { class: 'bloco lab' }, cab('Laboratório', b.titulo));
         sec.append(h('div', { class: 'lab-meta' },
           b.ferramenta ? h('span', { class: 'tag' }, '🛠️ ' + b.ferramenta) : null,
-          b.modo ? h('span', { class: 'tag' }, b.modo === 'par' ? '👥 Em par' : '👤 Individual') : null,
+          b.modo ? h('span', { class: 'tag' }, b.modo === 'grupo' ? '👥 Em grupo' : b.modo === 'par' ? '👥 Em par' : '👤 Individual') : null,
           b.tempo ? h('span', { class: 'tag' }, '⏱️ ' + b.tempo) : null,
           h('span', { class: 'tag' }, `⭐ ${b.xp || 30} XP`)));
         if (b.intro) sec.append(h('div', { html: b.intro }));
