@@ -82,7 +82,18 @@ SESSOES[4] = {
     },
     {
       tipo: 'entrega', titulo: 'Laboratório S04 · modo simulação', criterio: 'Resolução de Problemas', prazo: 'Até à próxima aula', modo: 'individual',
-      itens: ['<code>S04_NomeApelido.pkt</code>', 'Documento com: captura do separador OSI Model, os valores de porta/IP/MAC de destino, a ordem do handshake e as respostas ao exercício de diagnóstico']
+      intro: 'Entregas <b>2 ficheiros</b> na tarefa <i>Laboratório S04</i> do Teams: o ficheiro do Packet Tracer e um documento Word. No Word, usa um título para cada parte, pela ordem abaixo.',
+      itens: [
+        '📁 <b>Ficheiro 1 · <code>S04_NomeApelido.pkt</code></b>: a rede do laboratório "Ver os pacotes em câmara lenta" (switch, PC e Server com os IP certos e o HTTP ligado).',
+        `📄 <b>Ficheiro 2 · <code>S04_NomeApelido.docx</code></b>, com 4 partes:
+          <ol>
+            <li><b>Certificado</b> (lab "Inspeciona um certificado"): o site que abriste, para quem foi emitido, quem o emitiu (CA) e a validade. Responde também: o que mostrou o browser no <code>neverssl.com</code> e porque não deves pôr lá palavras-passe?</li>
+            <li><b>Camadas OSI</b>: a captura do separador <i>OSI Model</i> de um pacote HTTP, com as camadas <b>7, 4, 3 e 2</b> assinaladas (setas ou caixas).</li>
+            <li><b>Detalhes do pacote</b>: uma pequena tabela com a <b>porta de destino</b> (TCP), o <b>IP de destino</b> e o <b>MAC de destino</b>. Junta a ordem das flags do <b>3-way handshake</b> (1.º, 2.º, 3.º).</li>
+            <li><b>Diagnóstico por camadas</b>: para os problemas A a E, a camada OSI e o que farias primeiro, numa frase cada.</li>
+          </ol>`,
+        '✅ <b>Antes de carregares em Entregar</b>, confirma: os 2 ficheiros estão anexados, têm o teu nome e o Word tem as 4 partes.'
+      ]
     },
     {
       tipo: 'resumo',
